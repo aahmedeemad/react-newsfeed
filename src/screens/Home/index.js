@@ -7,8 +7,10 @@ import {
   Alert,
   Image,
   Dimensions,
+  TouchableOpacity,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 const Home = () => {
   const [news, setNews] = useState([]);
@@ -29,6 +31,8 @@ const Home = () => {
       setNewsLoading(false);
     }
   }
+
+  const {isFocused, navigate} = useNavigation();
 
   useEffect(() => {
     if (newsError) {
@@ -72,31 +76,36 @@ const Home = () => {
       )}
       <ScrollView>
         {news.map(onenew => (
-          <View
-            key={onenew.id}
-            style={{
-              alignItems: 'center',
-              margin: 10,
-              maxWidth: Dimensions.get('window').width,
+          <TouchableOpacity
+            onPress={() => {
+              navigate(`News Details`, {id: onenew.id});
             }}>
-            <Image
+            <View
+              key={onenew.id}
               style={{
-                width: Dimensions.get('window').width - 20,
-                height: 200,
-                borderRadius: 15,
-              }}
-              source={{
-                uri: `${onenew.image}`,
-              }}
-            />
-            <Text
-              style={{
-                fontSize: 20,
-                color: 'black',
+                alignItems: 'center',
+                margin: 10,
+                maxWidth: Dimensions.get('window').width,
               }}>
-              {onenew.title}
-            </Text>
-          </View>
+              <Image
+                style={{
+                  width: Dimensions.get('window').width - 20,
+                  height: 200,
+                  borderRadius: 15,
+                }}
+                source={{
+                  uri: `${onenew.image}`,
+                }}
+              />
+              <Text
+                style={{
+                  fontSize: 20,
+                  color: 'black',
+                }}>
+                {onenew.title}
+              </Text>
+            </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
     </SafeAreaView>

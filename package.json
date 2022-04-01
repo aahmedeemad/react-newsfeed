@@ -13,13 +13,17 @@
     "@popperjs/core": "^2.11.4",
     "@react-native-community/cli": "^7.0.3",
     "@react-native-community/cli-tools": "^6.2.0",
+    "@react-navigation/native": "^6.0.10",
+    "@react-navigation/native-stack": "^6.6.1",
     "appdirsjs": "^1.2.4",
     "axios": "^0.26.1",
     "axios-hooks": "^3.0.1",
     "react": "17.0.2",
     "react-native": "0.67.4",
     "react-native-cli": "^2.0.1",
-    "react-native-eject": "^0.1.2"
+    "react-native-eject": "^0.1.2",
+    "react-native-safe-area-context": "^4.2.4",
+    "react-native-screens": "^3.13.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
