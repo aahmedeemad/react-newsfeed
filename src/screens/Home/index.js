@@ -8,14 +8,20 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
+
+const wait = timeout => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+};
 
 const Home = () => {
   const [news, setNews] = useState([]);
   const [newsLoading, setNewsLoading] = useState(false);
   const [newsError, setNewsError] = useState('');
+  const [refreshing, setRefreshing] = React.useState(false);
 
   async function fetchNews() {
     setNewsLoading(true);
@@ -53,6 +59,11 @@ const Home = () => {
     fetchNews();
   }, []);
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
   return (
     <SafeAreaView
       style={{
@@ -74,7 +85,10 @@ const Home = () => {
           }}
         />
       )}
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         {news.map(onenew => (
           <TouchableOpacity
             onPress={() => {
