@@ -6,6 +6,7 @@ import {
   ScrollView,
   Alert,
   Image,
+  Dimensions,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 
@@ -49,7 +50,11 @@ const Home = () => {
   }, []);
 
   return (
-    <SafeAreaView Style={{flex: 1}}>
+    <SafeAreaView
+      style={{
+        alignItems: 'center',
+        flex: 1,
+      }}>
       {newsLoading && (
         <ActivityIndicator
           size={200}
@@ -67,18 +72,29 @@ const Home = () => {
       )}
       <ScrollView>
         {news.map(onenew => (
-          <View key={onenew.id}>
+          <View
+            key={onenew.id}
+            style={{
+              alignItems: 'center',
+              margin: 10,
+              maxWidth: Dimensions.get('window').width,
+            }}>
             <Image
               style={{
-                width: 150,
-                height: 150,
+                width: Dimensions.get('window').width - 20,
+                height: 200,
+                borderRadius: 15,
               }}
               source={{
                 uri: `${onenew.image}`,
               }}
             />
-            <Text>
-              {onenew.title}~{'\n'}
+            <Text
+              style={{
+                fontSize: 20,
+                color: 'black',
+              }}>
+              {onenew.title}
             </Text>
           </View>
         ))}
