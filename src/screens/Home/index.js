@@ -9,6 +9,7 @@ import {
   Dimensions,
   TouchableOpacity,
   RefreshControl,
+  TextInput,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
@@ -21,7 +22,8 @@ const Home = () => {
   const [news, setNews] = useState([]);
   const [newsLoading, setNewsLoading] = useState(false);
   const [newsError, setNewsError] = useState('');
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [text, onChangeText] = useState('');
 
   async function fetchNews() {
     setNewsLoading(true);
@@ -64,6 +66,19 @@ const Home = () => {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
+  function searchFilterFunction(text) {
+    if (text == '') {
+      fetchNews();
+    } else {
+      const newData = news.filter(item => {
+        const itemData = `${item.title.toUpperCase()}`;
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setNews(newData);
+    }
+  }
+
   return (
     <SafeAreaView
       style={{
@@ -89,13 +104,26 @@ const Home = () => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
+        <TextInput
+          placeholder="Search"
+          style={{
+            height: 50,
+            margin: 12,
+            borderWidth: 1,
+            padding: 10,
+            borderRadius: 10,
+            fontSize: 20,
+            width: Dimensions.get('window').width - 20,
+          }}
+          onChangeText={text => searchFilterFunction(text)}
+        />
         {news.map(onenew => (
           <TouchableOpacity
+            key={onenew.id}
             onPress={() => {
               navigate(`News Details`, {id: onenew.id});
             }}>
             <View
-              key={onenew.id}
               style={{
                 alignItems: 'center',
                 margin: 10,
