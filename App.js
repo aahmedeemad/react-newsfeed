@@ -1,21 +1,60 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Home from './src/screens/Home';
 import NewsDetails from './src/screens/NewsDetails';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  DefaultTheme,
+  DarkTheme,
+  useTheme,
+} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useColorScheme, Button, Text} from 'react-native';
+import {Switch} from 'react-native-switch';
+import FontAwesome from 'react-native-fontawesome';
 
 const Main = createNativeStackNavigator();
 
-class App extends React.Component {
-  render() {
-    return (
-      <NavigationContainer>
-        <Main.Navigator key="mainStack">
-          <Main.Screen name="Home" component={Home} />
-          <Main.Screen name="News Details" component={NewsDetails} />
-        </Main.Navigator>
-      </NavigationContainer>
-    );
-  }
-}
-export default App;
+export default () => {
+  const {colors} = useTheme();
+  const [scheme, setScheme] = useState(useColorScheme());
+  const [switchVal, setSwitchVal] = useState(true);
+
+  return (
+    <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Main.Navigator key="mainStack">
+        <Main.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerRight: () => (
+              <Switch
+                value={switchVal}
+                barHeight={40}
+                circleSize={40}
+                onValueChange={() => {
+                  scheme === 'dark' ? setScheme('light') : setScheme('dark');
+                  switchVal === false
+                    ? setSwitchVal(true)
+                    : setSwitchVal(false);
+                }}
+                innerCircleStyle={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                disabled={false}
+                activeText={'Dark Mode'}
+                inActiveText={'Light Mode'}
+                backgroundActive={'green'}
+                backgroundInactive={'gray'}
+                circleActiveColor={'#30a566'}
+                circleInActiveColor={'#000000'}
+                switchWidthMultiplier={3.9}
+              />
+            ),
+          }}
+        />
+        <Main.Screen name="News Details" component={NewsDetails} />
+      </Main.Navigator>
+    </NavigationContainer>
+  );
+};

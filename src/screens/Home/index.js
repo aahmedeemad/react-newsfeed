@@ -12,7 +12,7 @@ import {
   TextInput,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -79,11 +79,14 @@ const Home = () => {
     }
   }
 
+  const {colors} = useTheme();
+
   return (
     <SafeAreaView
       style={{
         alignItems: 'center',
         flex: 1,
+        backgroundColor: colors.card,
       }}>
       {newsLoading && (
         <ActivityIndicator
@@ -106,6 +109,7 @@ const Home = () => {
         }>
         <TextInput
           placeholder="Search"
+          placeholderTextColor={colors.text}
           style={{
             height: 50,
             margin: 12,
@@ -113,6 +117,7 @@ const Home = () => {
             padding: 10,
             borderRadius: 10,
             fontSize: 20,
+            borderColor: colors.text,
             width: Dimensions.get('window').width - 20,
           }}
           onChangeText={text => searchFilterFunction(text)}
@@ -142,7 +147,7 @@ const Home = () => {
               <Text
                 style={{
                   fontSize: 20,
-                  color: 'black',
+                  color: colors.text,
                 }}>
                 {onenew.title}
               </Text>

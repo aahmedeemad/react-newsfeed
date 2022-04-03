@@ -9,7 +9,7 @@ import {
   Dimensions,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import {useRoute} from '@react-navigation/native';
+import {useRoute, useTheme} from '@react-navigation/native';
 
 const NewsDetails = () => {
   const [news, setNews] = useState([]);
@@ -51,6 +51,8 @@ const NewsDetails = () => {
     fetchNews();
   }, []);
 
+  const {colors} = useTheme();
+
   return (
     <SafeAreaView
       style={{
@@ -83,7 +85,7 @@ const NewsDetails = () => {
             <Text
               style={{
                 fontSize: 25,
-                color: 'black',
+                color: colors.text,
                 textAlign: 'center',
               }}>
               {news.title}
@@ -92,7 +94,7 @@ const NewsDetails = () => {
             <Text
               style={{
                 fontSize: 15,
-                color: 'black',
+                color: colors.text,
               }}>
               Published at: {news.published_at}
             </Text>
@@ -111,7 +113,7 @@ const NewsDetails = () => {
                 <Text
                   style={{
                     fontSize: 15,
-                    color: 'black',
+                    color: colors.text,
                   }}>
                   Author: {news.author}
                 </Text>
@@ -120,7 +122,7 @@ const NewsDetails = () => {
                 <Text
                   style={{
                     fontSize: 15,
-                    color: 'black',
+                    color: colors.text,
                     textAlign: 'right',
                   }}>
                   Source: {news.source}
@@ -130,7 +132,7 @@ const NewsDetails = () => {
             <Text
               style={{
                 fontSize: 20,
-                color: 'black',
+                color: colors.text,
               }}>
               {'\n'}
               {news.description}
