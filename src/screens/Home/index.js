@@ -10,9 +10,11 @@ import {
   TouchableOpacity,
   RefreshControl,
   TextInput,
+  Button,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
+import I18n from 'react-native-i18n';
 
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -24,6 +26,9 @@ const Home = () => {
   const [newsError, setNewsError] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [text, onChangeText] = useState('');
+  const [lang, setLang] = useState('');
+  const {isFocused, navigate} = useNavigation();
+  const {colors} = useTheme();
 
   async function fetchNews() {
     setNewsLoading(true);
@@ -39,8 +44,6 @@ const Home = () => {
       setNewsLoading(false);
     }
   }
-
-  const {isFocused, navigate} = useNavigation();
 
   useEffect(() => {
     if (newsError) {
@@ -79,7 +82,18 @@ const Home = () => {
     }
   }
 
-  const {colors} = useTheme();
+  I18n.translations = {
+    'en-US': {
+      EN: 'English',
+      AR: 'Arabic',
+      Search: 'Search',
+    },
+    ar: {
+      EN: 'الأنجليزية',
+      AR: 'العربية',
+      Search: 'بحث',
+    },
+  };
 
   return (
     <SafeAreaView
@@ -107,8 +121,20 @@ const Home = () => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
+        <Button
+          onPress={() => {
+            setLang('en-US');
+            I18n.locale = 'en-US';
+          }}
+          title={I18n.t('EN')}></Button>
+        <Button
+          onPress={() => {
+            setLang('ar');
+            I18n.locale = 'ar';
+          }}
+          title={I18n.t('AR')}></Button>
         <TextInput
-          placeholder="Search"
+          placeholder={I18n.t('Search')}
           placeholderTextColor={colors.text}
           style={{
             height: 50,

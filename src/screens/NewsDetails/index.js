@@ -10,12 +10,14 @@ import {
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useRoute, useTheme} from '@react-navigation/native';
+import I18n from 'react-native-i18n';
 
 const NewsDetails = () => {
   const [news, setNews] = useState([]);
   const [newsLoading, setNewsLoading] = useState(false);
   const [newsError, setNewsError] = useState('');
   const {params} = useRoute();
+  const {colors} = useTheme();
 
   async function fetchNews() {
     setNewsLoading(true);
@@ -51,7 +53,18 @@ const NewsDetails = () => {
     fetchNews();
   }, []);
 
-  const {colors} = useTheme();
+  I18n.translations = {
+    'en-US': {
+      Publishedat: 'Published at',
+      Author: 'Author',
+      Source: 'Source',
+    },
+    ar: {
+      Publishedat: 'نشر في',
+      Author: 'الكاتب',
+      Source: 'المصدر',
+    },
+  };
 
   return (
     <SafeAreaView
@@ -96,7 +109,7 @@ const NewsDetails = () => {
                 fontSize: 15,
                 color: colors.text,
               }}>
-              Published at: {news.published_at}
+              {I18n.t('Publishedat')}: {news.published_at}
             </Text>
             <Image
               style={{
@@ -115,7 +128,7 @@ const NewsDetails = () => {
                     fontSize: 15,
                     color: colors.text,
                   }}>
-                  Author: {news.author}
+                  {I18n.t('Author')}: {news.author}
                 </Text>
               </View>
               <View style={{flex: 1}}>
@@ -125,7 +138,7 @@ const NewsDetails = () => {
                     color: colors.text,
                     textAlign: 'right',
                   }}>
-                  Source: {news.source}
+                  {I18n.t('Source')}: {news.source}
                 </Text>
               </View>
             </View>

@@ -11,6 +11,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useColorScheme, Button, Text} from 'react-native';
 import {Switch} from 'react-native-switch';
 import FontAwesome from 'react-native-fontawesome';
+import I18n from 'react-native-i18n';
 
 const Main = createNativeStackNavigator();
 
@@ -19,11 +20,29 @@ export default () => {
   const [scheme, setScheme] = useState(useColorScheme());
   const [switchVal, setSwitchVal] = useState(true);
 
+  I18n.translations = {
+    'en-US': {
+      DarkMode: 'Dark Mode',
+      LightMode: 'Light Mode',
+      Home: 'Home',
+      NewsDetails: 'News Details',
+    },
+    ar: {
+      DarkMode: 'وضع الليل',
+      LightMode: 'وضع النهار',
+      Home: 'الرئيسية',
+      NewsDetails: 'تفاصيل الأخبار',
+    },
+  };
+
   return (
     <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Main.Navigator key="mainStack">
         <Main.Screen
           name="Home"
+          options={{
+            title: I18n.t('Home'),
+          }}
           component={Home}
           options={{
             headerRight: () => (
@@ -42,8 +61,8 @@ export default () => {
                   justifyContent: 'center',
                 }}
                 disabled={false}
-                activeText={'Dark Mode'}
-                inActiveText={'Light Mode'}
+                activeText={I18n.t('DarkMode')}
+                inActiveText={I18n.t('LightMode')}
                 backgroundActive={'green'}
                 backgroundInactive={'gray'}
                 circleActiveColor={'#30a566'}
@@ -53,7 +72,13 @@ export default () => {
             ),
           }}
         />
-        <Main.Screen name="News Details" component={NewsDetails} />
+        <Main.Screen
+          name="News Details"
+          options={{
+            title: I18n.t('NewsDetails'),
+          }}
+          component={NewsDetails}
+        />
       </Main.Navigator>
     </NavigationContainer>
   );
