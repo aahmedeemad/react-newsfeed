@@ -15,15 +15,12 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
-import I18n from 'react-native-i18n';
-import en from '../../locales/en';
-import ar from '../../locales/ar';
+import I18n from '../../locales/i18n';
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 };
 
 const Home = () => {
-  I18n.fallbacks = true;
   const [news, setNews] = useState([]);
   const [newsLoading, setNewsLoading] = useState(false);
   const [newsError, setNewsError] = useState('');
@@ -83,11 +80,6 @@ const Home = () => {
       setNews(newData);
     }
   }
-
-  I18n.translations = {
-    en,
-    ar,
-  };
 
   return (
     <SafeAreaView

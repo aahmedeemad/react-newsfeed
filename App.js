@@ -12,10 +12,8 @@ import {
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useColorScheme, Button, Text} from 'react-native';
 import {Switch} from 'react-native-switch';
-import I18n from 'react-native-i18n';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import en from './src/locales/en';
-import ar from './src/locales/ar';
+import I18n from './src/locales/i18n';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const Main = createNativeStackNavigator();
@@ -36,15 +34,9 @@ const linking = {
 };
 
 export default () => {
-  I18n.fallbacks = true;
   const {colors} = useTheme();
   const [scheme, setScheme] = useState(useColorScheme());
   const [switchVal, setSwitchVal] = useState(true);
-
-  I18n.translations = {
-    en,
-    ar,
-  };
 
   _retrieveLang = async () => {
     try {

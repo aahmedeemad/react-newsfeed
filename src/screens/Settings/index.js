@@ -10,21 +10,13 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
-import I18n from 'react-native-i18n';
-import en from '../../locales/en';
-import ar from '../../locales/ar';
+import I18n from '../../locales/i18n';
 import RNRestart from 'react-native-restart';
 
 const Settings = () => {
-  I18n.fallbacks = true;
   const [lang, setLang] = useState();
   const {colors} = useTheme();
   const [rerender, setRerender] = useState(false);
-
-  I18n.translations = {
-    en,
-    ar,
-  };
 
   return (
     <SafeAreaView
