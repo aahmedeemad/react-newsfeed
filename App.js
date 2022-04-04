@@ -14,26 +14,21 @@ import {Switch} from 'react-native-switch';
 import FontAwesome from 'react-native-fontawesome';
 import I18n from 'react-native-i18n';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import en from './src/locales/en';
+import ar from './src/locales/ar';
 
 const Main = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default () => {
+  I18n.fallbacks = true;
   const {colors} = useTheme();
   const [scheme, setScheme] = useState(useColorScheme());
   const [switchVal, setSwitchVal] = useState(true);
 
   I18n.translations = {
-    'en-US': {
-      News: 'News',
-      NewsDetails: 'News Details',
-      Settings: 'Settings',
-    },
-    ar: {
-      News: 'الأخبار',
-      NewsDetails: 'تفاصيل الأخبار',
-      Settings: 'الاعدادات',
-    },
+    en,
+    ar,
   };
 
   function Homee() {

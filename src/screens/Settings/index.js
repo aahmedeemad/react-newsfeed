@@ -9,33 +9,18 @@ import {
 import React, {useState, useEffect} from 'react';
 import {useTheme} from '@react-navigation/native';
 import I18n from 'react-native-i18n';
+import en from '../../locales/en';
+import ar from '../../locales/ar';
 
 const Settings = () => {
+  I18n.fallbacks = true;
   const [lang, setLang] = useState();
   const {colors} = useTheme();
   const [rerender, setRerender] = useState(false);
 
   I18n.translations = {
-    'en-US': {
-      EN: 'English',
-      AR: 'Arabic',
-      chooselang: 'Application language',
-      attention: 'Attention!',
-      alertmsg:
-        'Only the app language will change. \nThe news will still be in its original language (english).',
-      cancel: 'Cancel',
-      procceed: 'Procceed',
-    },
-    ar: {
-      EN: 'الأنجليزية',
-      AR: 'العربية',
-      chooselang: 'لغة البرنامج',
-      attention: 'انتبه!',
-      alertmsg:
-        'ستتغير لغة البرنامج فقط.\nستظل الأخبار بلغتها الأصلية (الأنجليزية).',
-      cancel: 'الغي',
-      procceed: 'استمر',
-    },
+    en,
+    ar,
   };
 
   return (

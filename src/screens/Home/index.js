@@ -15,12 +15,14 @@ import {
 import React, {useState, useEffect} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import I18n from 'react-native-i18n';
-
+import en from '../../locales/en';
+import ar from '../../locales/ar';
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 };
 
 const Home = () => {
+  I18n.fallbacks = true;
   const [news, setNews] = useState([]);
   const [newsLoading, setNewsLoading] = useState(false);
   const [newsError, setNewsError] = useState('');
@@ -82,20 +84,8 @@ const Home = () => {
   }
 
   I18n.translations = {
-    'en-US': {
-      DarkMode: 'Dark Mode',
-      LightMode: 'Light Mode',
-      Search: 'Search',
-      News: 'News',
-      Settings: 'Settings',
-    },
-    ar: {
-      DarkMode: 'وضع الليل',
-      LightMode: 'وضع النهار',
-      Search: 'بحث',
-      News: 'الأخبار',
-      Settings: 'الاعدادات',
-    },
+    en,
+    ar,
   };
 
   return (

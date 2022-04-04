@@ -11,8 +11,11 @@ import {
 import React, {useState, useEffect} from 'react';
 import {useRoute, useTheme} from '@react-navigation/native';
 import I18n from 'react-native-i18n';
+import en from '../../locales/en';
+import ar from '../../locales/ar';
 
 const NewsDetails = () => {
+  I18n.fallbacks = true;
   const [news, setNews] = useState([]);
   const [newsLoading, setNewsLoading] = useState(false);
   const [newsError, setNewsError] = useState('');
@@ -54,16 +57,8 @@ const NewsDetails = () => {
   }, []);
 
   I18n.translations = {
-    'en-US': {
-      Publishedat: 'Published at',
-      Author: 'Author',
-      Source: 'Source',
-    },
-    ar: {
-      Publishedat: 'نشر في',
-      Author: 'الكاتب',
-      Source: 'المصدر',
-    },
+    en,
+    ar,
   };
 
   return (
