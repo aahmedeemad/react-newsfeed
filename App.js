@@ -11,11 +11,11 @@ import {
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useColorScheme, Button, Text} from 'react-native';
 import {Switch} from 'react-native-switch';
-import FontAwesome from 'react-native-fontawesome';
 import I18n from 'react-native-i18n';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import en from './src/locales/en';
 import ar from './src/locales/ar';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Main = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -39,6 +39,14 @@ export default () => {
           component={Home}
           options={{
             title: I18n.t('News'),
+            tabBarIcon: ({color, focused}) => (
+              <Icon
+                focused={focused}
+                color={color}
+                name="newspaper"
+                size={25}
+              />
+            ),
             headerRight: () => (
               <Switch
                 value={switchVal}
@@ -62,6 +70,13 @@ export default () => {
                 circleActiveColor={'#30a566'}
                 circleInActiveColor={'#000000'}
                 switchWidthMultiplier={3.9}
+                renderInsideCircle={() =>
+                  switchVal === false ? (
+                    <Icon name="sunny-outline" size={25} color={'white'} />
+                  ) : (
+                    <Icon name="moon" size={25} color={'white'} />
+                  )
+                }
               />
             ),
           }}
@@ -71,6 +86,9 @@ export default () => {
           component={Settings}
           options={{
             title: I18n.t('Settings'),
+            tabBarIcon: ({color, focused}) => (
+              <Icon focused={focused} color={color} name="settings" size={25} />
+            ),
           }}
         />
       </Tab.Navigator>
