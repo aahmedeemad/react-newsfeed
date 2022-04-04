@@ -7,6 +7,7 @@ import {
   Alert,
   Image,
   Dimensions,
+  StyleSheet,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useRoute, useTheme} from '@react-navigation/native';
@@ -53,87 +54,82 @@ const NewsDetails = () => {
     fetchNews();
   }, []);
 
+  const styles = StyleSheet.create({
+    container: {
+      alignItems: 'center',
+      flex: 1,
+    },
+    activityind: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 350,
+      bottom: 0,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    newspageview: {
+      margin: 10,
+      maxWidth: Dimensions.get('window').width,
+    },
+    newsimg: {
+      width: Dimensions.get('window').width - 20,
+      height: 200,
+      borderRadius: 15,
+    },
+    detailstitle: {
+      fontSize: 25,
+      color: colors.text,
+      textAlign: 'center',
+    },
+    smalltext: {
+      fontSize: 15,
+      color: colors.text,
+    },
+    detailsdesc: {
+      fontSize: 20,
+      color: colors.text,
+    },
+  });
+
   return (
-    <SafeAreaView
-      style={{
-        alignItems: 'center',
-        flex: 1,
-      }}>
+    <SafeAreaView style={styles.container}>
       {newsLoading && (
-        <ActivityIndicator
-          size={200}
-          color="red"
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 350,
-            bottom: 0,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        />
+        <ActivityIndicator size={200} color="red" style={styles.activityind} />
       )}
       <ScrollView>
         {
-          <View
-            key={news.id}
-            style={{
-              margin: 10,
-              maxWidth: Dimensions.get('window').width,
-            }}>
-            <Text
-              style={{
-                fontSize: 25,
-                color: colors.text,
-                textAlign: 'center',
-              }}>
+          <View key={news.id} style={styles.newspageview}>
+            <Text style={styles.detailstitle}>
               {news.title}
               {'\n'}
             </Text>
-            <Text
-              style={{
-                fontSize: 15,
-                color: colors.text,
-              }}>
+            <Text style={styles.smalltext}>
               {I18n.t('Publishedat')}: {news.published_at}
             </Text>
             <Image
-              style={{
-                width: Dimensions.get('window').width - 20,
-                height: 200,
-                borderRadius: 15,
-              }}
+              style={styles.newsimg}
               source={{
                 uri: `${news.image}`,
               }}
             />
             <View style={{flexDirection: 'row'}}>
               <View style={{flex: 1}}>
-                <Text
-                  style={{
-                    fontSize: 15,
-                    color: colors.text,
-                  }}>
+                <Text style={styles.smalltext}>
                   {I18n.t('Author')}: {news.author}
                 </Text>
               </View>
               <View style={{flex: 1}}>
                 <Text
+                  style={styles.smalltext}
                   style={{
-                    fontSize: 15,
-                    color: colors.text,
                     textAlign: 'right',
                   }}>
                   {I18n.t('Source')}: {news.source}
                 </Text>
               </View>
             </View>
-            <Text
-              style={{
-                fontSize: 20,
-                color: colors.text,
-              }}>
+            <Text style={styles.detailsdesc}>
               {'\n'}
               {news.description}
             </Text>

@@ -11,11 +11,13 @@ import {
   RefreshControl,
   TextInput,
   Button,
+  StyleSheet,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import I18n from '../../locales/i18n';
+
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 };
@@ -81,27 +83,51 @@ const Home = () => {
     }
   }
 
+  const styles = StyleSheet.create({
+    container: {
+      alignItems: 'center',
+      flex: 1,
+      backgroundColor: colors.card,
+    },
+    activityind: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 300,
+      bottom: 0,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    searchbar: {
+      height: 50,
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
+      borderRadius: 10,
+      fontSize: 20,
+      borderColor: colors.text,
+      width: Dimensions.get('window').width - 20,
+    },
+    newspageview: {
+      alignItems: 'center',
+      margin: 10,
+      maxWidth: Dimensions.get('window').width,
+    },
+    newsimg: {
+      width: Dimensions.get('window').width - 20,
+      height: 200,
+      borderRadius: 15,
+    },
+    title: {
+      fontSize: 20,
+      color: colors.text,
+    },
+  });
+
   return (
-    <SafeAreaView
-      style={{
-        alignItems: 'center',
-        flex: 1,
-        backgroundColor: colors.card,
-      }}>
+    <SafeAreaView style={styles.container}>
       {newsLoading && (
-        <ActivityIndicator
-          size={200}
-          color="red"
-          style={{
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            top: 350,
-            bottom: 0,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        />
+        <ActivityIndicator size={200} color="red" style={styles.activityind} />
       )}
       <ScrollView
         refreshControl={
@@ -110,16 +136,7 @@ const Home = () => {
         <TextInput
           placeholder={I18n.t('Search')}
           placeholderTextColor={colors.text}
-          style={{
-            height: 50,
-            margin: 12,
-            borderWidth: 1,
-            padding: 10,
-            borderRadius: 10,
-            fontSize: 20,
-            borderColor: colors.text,
-            width: Dimensions.get('window').width - 20,
-          }}
+          style={styles.searchbar}
           onChangeText={text => searchFilterFunction(text)}
         />
         {news.map(onenew => (
@@ -128,29 +145,14 @@ const Home = () => {
             onPress={() => {
               navigate(`News Details`, {id: onenew.id});
             }}>
-            <View
-              style={{
-                alignItems: 'center',
-                margin: 10,
-                maxWidth: Dimensions.get('window').width,
-              }}>
+            <View style={styles.newspageview}>
               <Image
-                style={{
-                  width: Dimensions.get('window').width - 20,
-                  height: 200,
-                  borderRadius: 15,
-                }}
+                style={styles.newsimg}
                 source={{
                   uri: `${onenew.image}`,
                 }}
               />
-              <Text
-                style={{
-                  fontSize: 20,
-                  color: colors.text,
-                }}>
-                {onenew.title}
-              </Text>
+              <Text style={styles.title}>{onenew.title}</Text>
             </View>
           </TouchableOpacity>
         ))}

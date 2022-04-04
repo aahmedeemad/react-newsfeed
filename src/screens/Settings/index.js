@@ -6,6 +6,7 @@ import {
   Alert,
   Button,
   I18nManager,
+  StyleSheet,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect} from 'react';
@@ -18,19 +19,21 @@ const Settings = () => {
   const {colors} = useTheme();
   const [rerender, setRerender] = useState(false);
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.card,
+    },
+    langlabel: {
+      fontSize: 15,
+      color: colors.text,
+    },
+  });
+
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-      }}>
+    <SafeAreaView style={styles.container}>
       <ScrollView>
-        <Text
-          style={{
-            fontSize: 15,
-            color: colors.text,
-          }}>
-          {I18n.t('chooselang')}:
-        </Text>
+        <Text style={styles.langlabel}>{I18n.t('chooselang')}:</Text>
         <View style={{flexDirection: 'row'}}>
           <View style={{flex: 1}}>
             <Button
