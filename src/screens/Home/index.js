@@ -12,6 +12,7 @@ import {
   TextInput,
   Button,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import I18n from 'react-native-i18n';
@@ -48,13 +49,13 @@ const Home = () => {
 
   useEffect(() => {
     if (newsError) {
-      Alert.alert('API Error', 'Failed during data fetching', [
+      Alert.alert(`${I18n.t('APIErr')}`, `${I18n.t('APIfailed')}`, [
         {
-          text: 'Retry',
+          text: `${I18n.t('retry')}`,
           onPress: () => fetchNews(),
         },
         {
-          text: 'Cancel',
+          text: `${I18n.t('cancel')}`,
           Style: 'destructive',
         },
       ]);

@@ -39,13 +39,13 @@ const NewsDetails = () => {
 
   useEffect(() => {
     if (newsError) {
-      Alert.alert('API Error', 'Failed during data fetching', [
+      Alert.alert(`${I18n.t('APIErr')}`, `${I18n.t('APIfailed')}`, [
         {
-          text: 'Retry',
+          text: `${I18n.t('retry')}`,
           onPress: () => fetchNews(),
         },
         {
-          text: 'Cancel',
+          text: `${I18n.t('cancel')}`,
           Style: 'destructive',
         },
       ]);

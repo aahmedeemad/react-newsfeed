@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Home from './src/screens/Home';
 import NewsDetails from './src/screens/NewsDetails';
 import Settings from './src/screens/Settings';
@@ -30,6 +31,19 @@ export default () => {
     en,
     ar,
   };
+
+  _retrieveLang = async () => {
+    try {
+      let language = await AsyncStorage.getItem('language');
+      if (language !== null) {
+        I18n.locale = `${language}`;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  _retrieveLang();
 
   function Homee() {
     return (
