@@ -20,6 +20,20 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const Main = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const linking = {
+  prefixes: ['voisnews://'],
+  config: {
+    initialRouteName: 'Home',
+    screens: {
+      Home: {
+        path: 'News',
+      },
+      'News Details': {
+        path: `NewsDetails/:id`,
+      },
+    },
+  },
+};
 
 export default () => {
   I18n.fallbacks = true;
@@ -110,7 +124,9 @@ export default () => {
   }
 
   return (
-    <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <NavigationContainer
+      theme={scheme === 'dark' ? DarkTheme : DefaultTheme}
+      linking={linking}>
       <Main.Navigator key="mainStack">
         <Main.Screen
           name="Home"
