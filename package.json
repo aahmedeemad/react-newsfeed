@@ -16,6 +16,7 @@
     "@popperjs/core": "^2.11.4",
     "@react-native-community/cli": "^7.0.3",
     "@react-native-community/cli-tools": "^6.2.0",
+    "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.1",
     "appdirsjs": "^1.2.4",

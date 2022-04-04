@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Home from './src/screens/Home';
 import NewsDetails from './src/screens/NewsDetails';
+import Settings from './src/screens/Settings';
 import {
   NavigationContainer,
   DefaultTheme,
@@ -12,8 +13,10 @@ import {useColorScheme, Button, Text} from 'react-native';
 import {Switch} from 'react-native-switch';
 import FontAwesome from 'react-native-fontawesome';
 import I18n from 'react-native-i18n';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 const Main = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default () => {
   const {colors} = useTheme();
@@ -22,29 +25,25 @@ export default () => {
 
   I18n.translations = {
     'en-US': {
-      DarkMode: 'Dark Mode',
-      LightMode: 'Light Mode',
-      Home: 'Home',
+      News: 'News',
       NewsDetails: 'News Details',
+      Settings: 'Settings',
     },
     ar: {
-      DarkMode: 'وضع الليل',
-      LightMode: 'وضع النهار',
-      Home: 'الرئيسية',
+      News: 'الأخبار',
       NewsDetails: 'تفاصيل الأخبار',
+      Settings: 'الاعدادات',
     },
   };
 
-  return (
-    <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Main.Navigator key="mainStack">
-        <Main.Screen
-          name="Home"
-          options={{
-            title: I18n.t('Home'),
-          }}
+  function Homee() {
+    return (
+      <Tab.Navigator>
+        <Tab.Screen
+          name="News"
           component={Home}
           options={{
+            title: I18n.t('News'),
             headerRight: () => (
               <Switch
                 value={switchVal}
@@ -71,6 +70,28 @@ export default () => {
               />
             ),
           }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={Settings}
+          options={{
+            title: I18n.t('Settings'),
+          }}
+        />
+      </Tab.Navigator>
+    );
+  }
+
+  return (
+    <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <Main.Navigator key="mainStack">
+        <Main.Screen
+          name="Home"
+          options={{
+            title: I18n.t('Home'),
+            headerShown: false,
+          }}
+          component={Homee}
         />
         <Main.Screen
           name="News Details"

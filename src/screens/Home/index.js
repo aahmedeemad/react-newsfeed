@@ -26,7 +26,6 @@ const Home = () => {
   const [newsError, setNewsError] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [text, onChangeText] = useState('');
-  const [lang, setLang] = useState('');
   const {isFocused, navigate} = useNavigation();
   const {colors} = useTheme();
 
@@ -84,14 +83,18 @@ const Home = () => {
 
   I18n.translations = {
     'en-US': {
-      EN: 'English',
-      AR: 'Arabic',
+      DarkMode: 'Dark Mode',
+      LightMode: 'Light Mode',
       Search: 'Search',
+      News: 'News',
+      Settings: 'Settings',
     },
     ar: {
-      EN: 'الأنجليزية',
-      AR: 'العربية',
+      DarkMode: 'وضع الليل',
+      LightMode: 'وضع النهار',
       Search: 'بحث',
+      News: 'الأخبار',
+      Settings: 'الاعدادات',
     },
   };
 
@@ -121,18 +124,6 @@ const Home = () => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
-        <Button
-          onPress={() => {
-            setLang('en-US');
-            I18n.locale = 'en-US';
-          }}
-          title={I18n.t('EN')}></Button>
-        <Button
-          onPress={() => {
-            setLang('ar');
-            I18n.locale = 'ar';
-          }}
-          title={I18n.t('AR')}></Button>
         <TextInput
           placeholder={I18n.t('Search')}
           placeholderTextColor={colors.text}
