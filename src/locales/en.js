@@ -25,4 +25,5 @@ export default {
   APIErr: 'API Error',
   APIfailed: 'Failed during data fetching',
   retry: 'Retry',
+  readfull: 'Read full article on the website',
 };

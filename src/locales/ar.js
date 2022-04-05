@@ -25,4 +25,5 @@ export default {
   APIErr: 'مشكلة في الAPI',
   APIfailed: 'تعثر الحصول على معلومات',
   retry: 'اعد المحاولة',
+  readfull: 'اقرأ الخبر بالكامل من المصدر',
 };

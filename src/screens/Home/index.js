@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect} from 'react';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import I18n from '../../locales/i18n';
+import MY_API_TOKEN from '../../../config';
 
 const wait = timeout => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -35,11 +36,12 @@ const Home = () => {
     setNewsLoading(true);
     setNewsError(false);
     try {
-      const response = await fetch('http://10.0.2.2:8000/news');
+      const response = await fetch(
+        `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=${MY_API_TOKEN()}`,
+      );
       const data = await response.json();
-      setNews(data);
+      setNews(data.articles);
     } catch (err) {
-      console.log(err);
       setNewsError(err);
     } finally {
       setNewsLoading(false);
@@ -141,15 +143,15 @@ const Home = () => {
         />
         {news.map(onenew => (
           <TouchableOpacity
-            key={onenew.id}
+            key={onenew.title}
             onPress={() => {
-              navigate(`News Details`, {id: onenew.id});
+              navigate(`News Details`, {title: onenew.title});
             }}>
             <View style={styles.newspageview}>
               <Image
                 style={styles.newsimg}
                 source={{
-                  uri: `${onenew.image}`,
+                  uri: `${onenew.urlToImage}`,
                 }}
               />
               <Text style={styles.title}>{onenew.title}</Text>

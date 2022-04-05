@@ -8,10 +8,13 @@ import {
   Image,
   Dimensions,
   StyleSheet,
+  Button,
+  Linking,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
 import {useRoute, useTheme} from '@react-navigation/native';
 import I18n from '../../locales/i18n';
+import MY_API_TOKEN from '../../../config';
 
 const NewsDetails = () => {
   const [news, setNews] = useState([]);
@@ -19,16 +22,26 @@ const NewsDetails = () => {
   const [newsError, setNewsError] = useState('');
   const {params} = useRoute();
   const {colors} = useTheme();
+  const [id, setid] = useState(0);
 
   async function fetchNews() {
     setNewsLoading(true);
     setNewsError(false);
     try {
-      const response = await fetch(`http://10.0.2.2:8000/news/${params.id}`);
+      const response = await fetch(
+        `https://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=${MY_API_TOKEN()}`,
+      );
       const data = await response.json();
-      setNews(data);
+      if (params.title) {
+        const datafiltered = data.articles.filter(
+          article => article.title === params.title,
+        );
+        setNews(datafiltered);
+      } else {
+        setid(params.id);
+        setNews(data.articles);
+      }
     } catch (err) {
-      console.log(err);
       setNewsError(err);
     } finally {
       setNewsLoading(false);
@@ -92,52 +105,79 @@ const NewsDetails = () => {
     },
   });
 
-  return (
-    <SafeAreaView style={styles.container}>
-      {newsLoading && (
+  if (news <= 0) {
+    return (
+      <SafeAreaView style={styles.container}>
         <ActivityIndicator size={200} color="red" style={styles.activityind} />
-      )}
-      <ScrollView>
-        {
-          <View key={news.id} style={styles.newspageview}>
-            <Text style={styles.detailstitle}>
-              {news.title}
-              {'\n'}
-            </Text>
-            <Text style={styles.smalltext}>
-              {I18n.t('Publishedat')}: {news.published_at}
-            </Text>
-            <Image
-              style={styles.newsimg}
-              source={{
-                uri: `${news.image}`,
-              }}
-            />
-            <View style={{flexDirection: 'row'}}>
-              <View style={{flex: 1}}>
-                <Text style={styles.smalltext}>
-                  {I18n.t('Author')}: {news.author}
-                </Text>
+      </SafeAreaView>
+    );
+  } else {
+    return (
+      <SafeAreaView style={styles.container}>
+        {newsLoading && (
+          <ActivityIndicator
+            size={200}
+            color="red"
+            style={styles.activityind}
+          />
+        )}
+        <ScrollView>
+          {
+            <View key={news[id].urlToImage} style={styles.newspageview}>
+              <Text style={styles.detailstitle}>
+                {params.title || news[id].title}
+                {'\n'}
+              </Text>
+              <Text style={styles.smalltext}>
+                {I18n.t('Publishedat')}: {news[id].publishedAt}
+              </Text>
+              <Image
+                style={styles.newsimg}
+                source={{
+                  uri: `${news[id].urlToImage}`,
+                }}
+              />
+              <View style={{flexDirection: 'row'}}>
+                <View style={{flex: 1}}>
+                  <Text style={styles.smalltext}>
+                    {I18n.t('Author')}: {news[id].author}
+                  </Text>
+                </View>
+                <View style={{flex: 1}}>
+                  <Text
+                    style={styles.smalltext}
+                    style={{
+                      textAlign: 'right',
+                    }}>
+                    {I18n.t('Source')}: {news[id].source.name}
+                  </Text>
+                </View>
               </View>
-              <View style={{flex: 1}}>
-                <Text
-                  style={styles.smalltext}
-                  style={{
-                    textAlign: 'right',
-                  }}>
-                  {I18n.t('Source')}: {news.source}
-                </Text>
-              </View>
+              <Text style={styles.detailsdesc}>
+                {'\n'}
+                {news[id].content}
+                {'\n'}
+              </Text>
+              <Button
+                onPress={() => {
+                  Linking.canOpenURL(news[id].url).then(supported => {
+                    if (supported) {
+                      Linking.openURL(news[id].url);
+                    } else {
+                      console.log(
+                        "Don't know how to open URI: " + news[id].url,
+                      );
+                    }
+                  });
+                }}
+                title={I18n.t('readfull')}
+              />
             </View>
-            <Text style={styles.detailsdesc}>
-              {'\n'}
-              {news.description}
-            </Text>
-          </View>
-        }
-      </ScrollView>
-    </SafeAreaView>
-  );
+          }
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
 };
 
 export default NewsDetails;
